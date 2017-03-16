@@ -1,6 +1,9 @@
 function add () {
     let item = document.getElementById('addTodoItem').value
     addTodoItem = JSON.parse(localStorage.getItem('list'))
+    if (addTodoItem === null){
+        addTodoItem = []
+    }
     addTodoItem.push(item)    
     localStorage.setItem('list', JSON.stringify(addTodoItem)) 
     show() 
@@ -18,15 +21,18 @@ function remove () {
  
 function show () {    
     let list = JSON.parse(localStorage.getItem('list')) 
-    let html =''
-    for(let i=0; i<list.length; i++) {
-        html += '<li>' + list[i] + '<button class="delete" id="' + i + '"><span>Delete</span></button></li>'
-    } 
-    document.getElementById('todoList').innerHTML = html 
-    let buttons = document.getElementsByClassName('delete')
-    for (let i=0; i < buttons.length; i++) {
-        buttons[i].addEventListener('click', remove)
+    if (list !== null){
+        let html =''
+        for(let i=0; i<list.length; i++) {
+            html += '<li>' + list[i] + '<button class="delete" id="' + i + '"><span>Delete</span></button></li>'
+        }
+        document.getElementById('todoList').innerHTML = html 
+        let buttons = document.getElementsByClassName('delete')
+        for (let i=0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', remove)
+        }
     }
+    else {return false}     
 }
 
 let lists = document.querySelector('ol')
@@ -36,6 +42,5 @@ let lists = document.querySelector('ol')
   		}
 	}, false)
 
-let addTodoItem = []    
 document.getElementById('addTodo').addEventListener('click', add)
 show()
