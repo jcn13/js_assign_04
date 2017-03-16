@@ -1,60 +1,40 @@
-function get_todos() {
-    let todos = new Array;
-    let todos_str = localStorage.getItem('todo');
-    if (todos_str !== null) {
-        todos = JSON.parse(todos_str); 
-    }
-    return todos;
-}
- 
 function add() {
-    let addTodoItem = document.getElementById('addTodoItem').value;
- 
-    let todos = get_todos();
-    todos.push(addTodoItem);
-    localStorage.setItem('todo', JSON.stringify(todos));
- 
-    show();
- 
-    return false;
+    item = document.getElementById('addTodoItem').value
+    addTodoItem = JSON.parse(localStorage.getItem('list'))
+    addTodoItem.push(item)    
+    localStorage.setItem('list', JSON.stringify(addTodoItem)) 
+    show() 
+    return false
 }
  
 function remove() {
-    let id = this.getAttribute('id');
-    let todos = get_todos();
-    todos.splice(id, 1);
-    localStorage.setItem('todo', JSON.stringify(todos));
- 
-    show();
- 
-    return false;
+    let id = this.getAttribute('id')    
+    addTodoItem.splice(id, 1)
+    localStorage.setItem('list', JSON.stringify(addTodoItem))
+    show() 
+    return false
 }
  
-function show() {
-    let todos = get_todos();
- 
+function show() {    
+    let list = JSON.parse(localStorage.getItem('list')) 
     let html =''
-    for(let i=0; i<todos.length; i++) {
-        html += '<li>' + todos[i] + '<button class="delete" id="' + i  + '"><span>Delete</span></button></li>';
-    };
-    
- 
-    document.getElementById('todoList').innerHTML = html;
- 
-    let buttons = document.getElementsByClassName('delete');
+    for(let i=0; i<list.length; i++) {
+        html += '<li>' + list[i] + '<button class="delete" id="' + i + '"><span>Delete</span></button></li>'
+    } 
+    document.getElementById('todoList').innerHTML = html 
+    let buttons = document.getElementsByClassName('delete')
     for (let i=0; i < buttons.length; i++) {
-        buttons[i].addEventListener('click', remove);
-    };
-
+        buttons[i].addEventListener('click', remove)
+    }
 }
 
-let list = document.querySelector('ol');
-	list.addEventListener('click', function(ev) {
+let lists = document.querySelector('ol')
+	lists.addEventListener('click', function(ev) {
   		if (ev.target.tagName === 'LI') {
-    		ev.target.classList.toggle('checked');
+    		ev.target.classList.toggle('checked')
   		}
-	}, false);
+	}, false)
 
-
-document.getElementById('addTodo').addEventListener('click', add);
-show();
+let addTodoItem = []    
+document.getElementById('addTodo').addEventListener('click', add)
+show()
